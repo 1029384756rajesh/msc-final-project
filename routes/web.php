@@ -61,8 +61,6 @@ Route::middleware("auth")->group(function(){
     
         Route::post("/{product}", [CartController::class, "store"]);    
     
-        Route::delete("/{productId}", [CartController::class, "delete"]);   
-    
-        Route::patch("/{cartId}", [CartController::class, "update"]);    
+        Route::delete("/{cart}", [CartController::class, "delete"]);   
     });
 });

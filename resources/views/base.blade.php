@@ -36,19 +36,26 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ str_starts_with(Request::path(), "search") ? "active" : "" }}" href="/search">Search</a>
+                        <a class="nav-link {{ Request::path() == "search" ? "active" : "" }}" href="/search">Search</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::path() == "cart" || Request::path() == "checkout" ? "active" : "" }}" href="/cart">Cart</a>
                     </li>
 
                     @if (auth()->user())
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <li class="nav-item dropdown" data-bs-theme="light">
+                        <a class="nav-link dropdown-toggle {{ Request::path() == "orders" || Request::path() == "account/password/edit" || Request::path() == "account/edit" || str_starts_with(Request::path(), "orders/") ? "active" : "" }}" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Account
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/orders">Orders</a></li>
-                            <li><a class="dropdown-item" href="/account/edit">Edit Account</a></li>
-                            <li><a class="dropdown-item" href="/account/password/edit">Change Password</a></li>
+                            <li><a class="dropdown-item {{ str_starts_with(Request::path(), "orders") ? "active" : "" }}" href="/orders">Orders</a></li>
+                            <li><a class="dropdown-item {{ Request::path() == "account/edit" ? "active" : "" }}" href="/account/edit">Edit Account</a></li>
+                            <li><a class="dropdown-item {{ Request::path() == "account/password/edit" ? "active" : "" }}" href="/account/password/edit">Change Password</a></li>
+                            @if (auth()->user()->is_admin)
+                                <li><a class="dropdown-item" href="/admin">Admin Panel</a></li>
+                            @endif
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

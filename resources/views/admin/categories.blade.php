@@ -36,7 +36,7 @@
                                 </td>
 
                                 <td>
-                                    <img src="/storage/{{ $category->image_url }}" width="60px" height="60px" class="img-fluid">
+                                    <img src="/storage/{{ $category->image_url }}" style="height: 60px; width: 60px; object-fit: cover;">
                                 </td>
                                 
                                 <td>

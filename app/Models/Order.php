@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ShippingAddress;
 use App\Models\OrderedProduct;
-use App\Models\PaymentDetails;
-use App\Models\OrderedAttribute;
 use App\Models\User;
 
 class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["status"];
+    protected $fillable = [
+        "status",
+        "shipping_cost"
+    ];
 
     public function products()
     {
@@ -24,11 +25,6 @@ class Order extends Model
     public function shippingAddress()
     {
         return $this->hasOne(ShippingAddress::class);
-    }
-
-    public function paymentDetails()
-    {
-        return $this->hasOne(PaymentDetails::class);
     }
 
     public function user()

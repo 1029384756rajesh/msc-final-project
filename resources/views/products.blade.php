@@ -7,7 +7,7 @@
     <div class="row gy-3 mb-4">
         @foreach ($products as $product)
             <div class="col-md-3">
-                <div class="card" style="cursor: pointer" onclick="window.location.href='product/{{ $product->id }}'">
+                <div class="card" style="cursor: pointer" onclick="window.location.href='products/{{ $product->id }}'">
                     <img src="/storage/{{ $product->image_url }}" class="img-fluid">
                     <p class="text-center fw-bold mb-0 mt-2">{{ $product->name }}</p>
                     <p class="text-center text-primary fw-bold mb-2 mt-2">Rs. {{ $product->price }}</p>

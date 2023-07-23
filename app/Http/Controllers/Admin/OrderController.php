@@ -12,37 +12,24 @@ class OrderController extends Controller
     {
         $orders = Order::orderBy("orders.id", "desc")->with("products", "user")->get();
         
-        dd($orders);
-        return view("admin.orders.index", ["orders" => $orders]);
+        return view("admin.orders", ["orders" => $orders]);
     }  
 
-    public function show(Request $request, $orderId)
+    public function show(Request $request, Order $order)
     {
-        $order = Order::where("id", $orderId)->with("paymentDetails", "shippingAddress", "products", "products.attributes")->first();
+        $shipping_address = $order->shippingAddress()->first();
 
-        if(!$order) abort(404);
+        $products = $order->products()->get();
 
-        $order->products = $order->products->transform(function($product)
+        $product_price = 0;
+
+        foreach ($products as $product) 
         {
-            if(count($product->attributes))
-            {
-                $product->name = "$product->name : ";
+            $product_price += $product->price;
+        }
 
-                foreach ($product->attributes as $attribute) $product->name .= "$attribute->name - $attribute->option, ";
-
-                $product->name = substr($product->name, 0, -2);
-            }
-
-            return (object)[
-                "id" => $product->id,
-                "name" => $product->name,
-                "quantity" => $product->quantity,
-                "image" => $product->image,
-                "price" => $product->price
-            ];
-        });
-
-        return view("admin.orders.show", ["order" => $order]);
+        return view("admin.order", ["order" => $order, "shipping_address" => $shipping_address, "products" => $products,
+    "product_price" => $product_price]);
     }   
 
     public function update(Request $request, Order $order)
