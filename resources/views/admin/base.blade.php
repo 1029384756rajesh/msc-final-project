@@ -17,23 +17,23 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid my-4">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="list-group">
-                    <a href="/admin" class="list-group-item list-group-item-action active">Dashboard</a>
-                    <a href="/admin/sliders" class="list-group-item list-group-item-action">Sliders</a>
-                    <a href="/admin/categories" class="list-group-item list-group-item-action">Categories</a>
-                    <a href="/admin/products" class="list-group-item list-group-item-action">Products</a>
-                    <a href="/admin/orders" class="list-group-item list-group-item-action">Orders</a>
-                    <a href="/admin/users" class="list-group-item list-group-item-action">Users</a>
-                    <a href="/admin/settings" class="list-group-item list-group-item-action">Settings</a>
+                    <a href="/admin" class="list-group-item list-group-item-action {{ Request::path() == "admin" ? "active" : "" }}">Dashboard</a>
+                    <a href="/admin/sliders" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/sliders") ? "active" : "" }}">Sliders</a>
+                    <a href="/admin/categories" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/categories") ? "active" : "" }}">Categories</a>
+                    <a href="/admin/products" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/products") ? "active" : "" }}">Products</a>
+                    <a href="/admin/orders" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/orders") ? "active" : "" }}">Orders</a>
+                    <a href="/admin/users" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/users") ? "active" : "" }}">Users</a>
+                    <a href="/admin/settings" class="list-group-item list-group-item-action {{ str_starts_with(Request::path(), "admin/settings") ? "active" : "" }}">Settings</a>
                     <a href="/auth/logout" class="list-group-item list-group-item-action">Logout</a>
                     <a href="/" class="list-group-item list-group-item-action">Site</a>
                   </div>
             </div>
     
-            <div class="col-md-9">
+            <div class="col-md-10 mt-3 mt-md-0">
                 @if (session()->has("success"))
                     <div class="alert alert-success">{{ session("success") }}</div>
                 @endif

@@ -42,14 +42,14 @@
 
                             <td>{{ $product->short_description }}</td>
 
-                            <td>{{ $product->category->name }}</td>
+                            <td>{{ $product->category?->name }}</td>
 
                             <td>
-                                <img width="50px" height="50px" src="/storage/{{ $product->image_url }}" class="w-20 h-20 object-cover rounded-md">
+                                <img width="50px" height="50px" src="/storage/{{ $product->image_url }}" class="img-fluid">
                             </td>
                         
                             <td>
-                                <div class="flex gap-1">
+                                <div class="d-flex align-items-center gap-1">
                                     <a href="/admin/products/{{ $product->id }}/edit" class="btn btn-sm btn-warning">
                                         <i class="fa fa-edit"></i>
                                     </a>

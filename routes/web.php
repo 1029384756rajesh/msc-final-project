@@ -25,7 +25,7 @@ Route::prefix("account")->group(function(){
 
         Route::patch("/update", [AccountController::class, "update"]);
 
-        Route::view("/password/change", "auth.change-password");
+        Route::view("/password/edit", "auth.change-password");
 
         Route::patch("/password/change", [AccountController::class, "changePassword"]);
 
@@ -37,7 +37,7 @@ Route::get("/", [HomeController::class, "index"]);
 
 Route::get("/products", [HomeController::class, "products"]);
 
-Route::get("/products/{productId}", [HomeController::class, "product"]);
+Route::get("/products/{product}", [HomeController::class, "product"]);
 
 Route::get("/about", [HomeController::class, "about"]);
 
@@ -59,7 +59,7 @@ Route::middleware("auth")->group(function(){
 
         Route::get("/", [CartController::class, "index"]);    
     
-        Route::post("/{productId}", [CartController::class, "store"]);    
+        Route::post("/{product}", [CartController::class, "store"]);    
     
         Route::delete("/{productId}", [CartController::class, "delete"]);   
     

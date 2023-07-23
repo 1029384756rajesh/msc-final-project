@@ -1,34 +1,36 @@
 @extends("base")
 
 @section("head")
-    <title>Products</title>
+    <title>Search Product</title>
 @endsection
 
 @section("content")
-<div class="max-w-7xl mx-auto">
-    <form class="card mx-auto mb-4 max-w-2xl">
-        <div class="card-header card-header-title">Search</div>
+<div class="container my-4">
+    <form class="card mx-auto mb-4" style="max-width: 600px">
+        <div class="card-header fw-bold text-primary">Search</div>
         <div class="card-body">
-            <div class="flex">
-                <input name="search" type="search" value="{{ Request::get("search") }}" class="form-control rounded-r-none border-r-0">
-                <button type="submit" class="btn btn-outline-secondary rounded-l-none">
+            <div class="input-group">
+                <input type="search" class="form-control" name="search">
+                <button type="submit" class="btn btn-secondary">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </div>
     </form>
 
-    @if (count($products) == 0)
-        <div class="alert-warning">No Products Found</div>
+    @if (request()->query("search"))
+        <p class="fw-bold text-primary">{{ count($products) }} Products Found</p>
     @endif
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div class="row gy-3">
         @foreach ($products as $product)
-            <a href="/products/{{ $product->id }}" class="text-center">
-                <img src="{{ $product->image }}" class="w-full object-cover">
-                <p class="mt-2 mb-1 font-semibld font-medium">{{ $product->name }}</p>
-                <h5 class="text-lg font-bold text-indigo-600">{{ $product->price ? "₹ {$product->price}" : "₹ {$product->min_price} - ₹ {$product->max_price}" }}</h5>
-            </a>          
+            <div class="col-md-3">
+                <div class="card" style="cursor: pointer" onclick="window.location.href='products/{{ $product->id }}'">
+                    <img src="/storage/{{ $product->image_url }}" class="img-fluid">
+                    <p class="text-center fw-bold mb-0 mt-2">{{ $product->name }}</p>
+                    <p class="text-center text-primary fw-bold mb-2 mt-2">Rs. {{ $product->price }}</p>
+                </div>
+            </div>
         @endforeach
     </div>
 </div>

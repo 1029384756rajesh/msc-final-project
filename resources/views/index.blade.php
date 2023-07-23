@@ -1,28 +1,44 @@
 @extends("base")
 
 @section("head")
-    <title>Home</title>
+<title>Home</title>
 @endsection
 
 @section("content")
-<div class="max-w-7xl mx-auto">
-    <div class="mb-6">
-        <img src="{{ $sliders[0]->image }}" class="w-full block object-cover">
+<div id="indexCarousel" class="carousel slide">
+    <div class="carousel-inner">
+        @foreach ($sliders as $slider)
+          <div class="carousel-item {{ $loop->index == 0 ? "active" : "" }}">
+              <img src="/storage/{{ $slider->image_url }}" class="d-block w-100">
+          </div>
+        @endforeach
     </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#indexCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    
+    <button class="carousel-control-next" type="button" data-bs-target="#indexCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
-    @foreach ($categories as $category)
-        <div class="border-b-2 mb-8 border-indigo-600">
-            <p class="bg-indigo-600 text-white inline-block px-4 py-1 rounded-t-md text-lg">{{ $category->name }}</p>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" >
-            @foreach ($category->products as $product)
-                <a href="/products/{{ $product->id }}" class="text-center">
-                    <img src="{{ $product->image }}" class="w-full object-cover">
-                    <p class="mt-2 mb-1 font-semibld font-medium">{{ $product->name }}</p>
-                    <h5 class="text-lg font-bold text-indigo-600">{{ $product->price ? "₹ {$product->price}" : "₹ {$product->min_price} - ₹ {$product->max_price}" }}</h5>
-                </a>          
-            @endforeach
-        </div>
-    @endforeach
+<div class="container">
+    <h3 class="fw-bold text-primary text-center mt-5 mb-4">CATEGORIES</h3>
+
+    <div class="row gy-3 mb-4">
+        @foreach ($categories as $category)
+            <div class="col-md-3">
+                <div class="card" style="cursor: pointer" onclick="window.location.href='products?category_id={{ $category->id }}'">
+                    <img src="/storage/{{ $category->image_url }}" class="img-fluid">
+                    <div class="card-footer">
+                        <p class="text-center text-primary fw-bold mb-0">{{ $category->name }}</p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

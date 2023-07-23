@@ -6,100 +6,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield("head")
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script src="{{ asset("js/app.js") }}"></script>
-
-    <link href="{{ asset("css/app.css") }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
-<body class="font-poppins">
-    <nav class="bg-indigo-600 h-16 shadow-lg px-3 z-50">
-        <div class="max-w-5xl mx-auto h-full flex items-center justify-between">
-            <a href="/" class="text-2xl text-white font-bold">Ecommerce</a>
-            
-            <ul class="nav-menu nav-menu-close transition-all duration-300 lg:nav-menu-none flex flex-col lg:flex-row bg-indigo-600 lg:bg-inherit py-8 lg:py-0 items-center gap-8 absolute lg:static left-0 right-0 top-16 shadow-md lg:shadow-none">
-                <li>
-                    <a href="/" class="text-white">Home</a>
-                </li>
-                <li>
-                    <a href="/products" class="text-white">Products</a>
-                </li>
-                <li>
-                    <a href="/contact" class="text-white">Contact</a>
-                </li>
-                <li>
-                    <a href="/about" class="text-white">About</a>
-                </li>
-            </ul>
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Rmart</a>
 
-            <ul class="flex items-center gap-8">
-                <li>
-                    <a href="/search" class="fa fa-search text-white text-xl"></a>
-                </li>
-             
-                @if (auth()->user())
-                    <li>
-                        <a href="/cart" class="fa fa-shopping-cart text-white text-xl"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::path() == "/" ? "active" : "" }}" href="/">Home</a>
                     </li>
-                @endif
 
-                <li class="relative">
-                    <span class="account-icon fa fa-user cursor-pointer text-white text-xl"></span>
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with(Request::path(), "products") ? "active" : "" }}" href="/products">Products</a>
+                    </li>
 
-                    <ul class="account-menu absolute z-50 bg-indigo-600 w-56 right-0 shadow-lg text-white py-3 rounded hidden top-12">
-                        @if (auth()->user())
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with(Request::path(), "search") ? "active" : "" }}" href="/search">Search</a>
+                    </li>
+
+                    @if (auth()->user())
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                            <li><a class="dropdown-item" href="/account/edit">Edit Account</a></li>
+                            <li><a class="dropdown-item" href="/account/password/edit">Change Password</a></li>
                             <li>
-                                <a href="/orders" class="px-6 py-3 inline-block">Orders</a>
+                                <hr class="dropdown-divider">
                             </li>
+                            <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with(Request::path(), "login") ? "active" : "" }}" href="/account/login">Login</a>
+                    </li>
 
-                            <li>
-                                <a href="/account/edit" class="px-6 py-3 inline-block">Edit Account</a>
-                            </li>
-
-                            <li>
-                                <a href="/account/password/change" class="px-6 py-3 inline-block">Change Password</a>
-                            </li>
-
-                            <li>
-                                <a href="/account/logout" class="px-6 py-3 inline-block">Logout</a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="/account" class="px-6 py-3 inline-block">Register</a>
-                            </li>
-
-                            <li>
-                                <a href="/account/login" class="px-6 py-3 inline-block">Login</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-
-                <li class="nav-toggler lg:hidden">
-                    <div class="fa fa-bars text-white text-xl cursor-pointer"></div>
-                </li>
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with(Request::path(), "register") ? "active" : "" }}" href="/account">Register</a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
         </div>
     </nav>
 
     @if (session()->has("success"))
-        <div class="alert-success">{{ session("success") }}</div>
+    <div class="alert alert-success">{{ session("success") }}</div>
     @endif
 
     @if (session()->has("error"))
-        <div class="alert-danger">{{ session("error") }}</div>
+    <div class="alert alert-danger">{{ session("error") }}</div>
     @endif
 
-    <div class="py-6 px-3">
-        @yield("content")
-    </div>
+    @yield("content")
 
     <script>
-        window.user = @json(auth()->user())
+        window.user = @json(auth() -> user())
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,9 @@
 @extends("admin.base")
 
+@section("head")
+    <title>Categories</title>
+@endsection
+
 @section("content")
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between">
@@ -36,18 +40,20 @@
                                 </td>
                                 
                                 <td>
-                                    <a href="/admin/categories/{{ $category->id }}/edit" class="btn btn-sm btn-warning">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-
-                                    <form action="/admin/categories/{{ $category->id }}" method="post">
-                                        @csrf
-                                        @method("delete")
-
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <a href="/admin/categories/{{ $category->id }}/edit" class="btn btn-sm btn-warning">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+    
+                                        <form action="/admin/categories/{{ $category->id }}" method="post">
+                                            @csrf
+                                            @method("delete")
+    
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

@@ -115,29 +115,26 @@ class CartController extends Controller
         ]);
     }
 
-    public function store(Request $request, $productId)
+    public function store(Request $request, Product $product)
     {
-        $data = $request->validate(["quantity" => "required|integer|min:1"]);
+        $request->validate(["quantity" => "required|integer"]);
 
-        $product = Product::where("id", $productId)->where("has_variations", false)->where("is_completed", true)->first();
+        $cart = $request->user()->cart()->where("product_id", $product->id)->first();
 
-        if(!$product) abort(404);
-
-        if($product->stock && $product->stock < $request->quantity) return response()->json(["error" => "Insufficent stock"], 422);
-
-        $cartItem = $request->user()->cart()->where("id", $product->id)->first();
-
-        if($cartItem)
+        if($cart)
         {
-            $cartItem->pivot->quantity = $request->quantity;
-            $cartItem->pivot->save();
+            $cart->quantity = $request->quantity;
+            $cart->save();
         }
         else 
         {
-            $request->user()->cart()->attach($product->id, ["quantity" => $request->quantity]);
+            $request->user()->cart()->create([
+                "product_id" => $product->id,
+                "quantity" => $request->quantity
+            ]);
         }
-
-        return response()->json(["success" => "Product added to the cart successfully"]);
+        
+        return back()->with(["success" => "Product added to the cart successfully"]);
     }
 
     public function delete(Request $request, $productId)
